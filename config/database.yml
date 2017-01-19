@@ -1,0 +1,18 @@
+default:
+  adapter: mysql2
+  database: musical_api2
+  username: ratpack2
+  password: s1n4tr4
+  host: localhost
+development:
+  adapter: mysql2
+  database: musical_api2
+  username: ratpack2
+  password: s1n4tr4
+  host: localhost
+production:
+  adapter: mysql2
+  database: musical_api2
+  username: ratpack2
+  password: s1n4tr4
+  host: localhost

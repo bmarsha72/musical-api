@@ -10,3 +10,4 @@ require './models/account'
 
 #map controllers to routes
 map('/') { run ApplicationController }
+map('/account') { run AccountController }

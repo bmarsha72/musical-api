@@ -2,6 +2,7 @@ class AccountController < ApplicationController
 
   get '/' do
     #login /registration page
+    erb :login
   end
 
   post '/register' do
@@ -24,7 +25,9 @@ class AccountController < ApplicationController
     @model.password_salt = @password_salt
     @model.save
 
-    @account_message = "You have successfully registered"
+    @account_message = "You have successfully registered and logged in"
+
+    session[:user] = @model
 
     erb :login_notice
 
@@ -37,6 +40,21 @@ class AccountController < ApplicationController
     @email = params[:email]
     #accept params from a post to check if a user exists
     #and if so, log them in
+    if does_user_exist?(@username) == true
+      @account_message = "User Already Exists"
+      return erb :login_notice
+    end
+
+    @model = Account.where(:username => @username).first!
+    if @model.password_hash == BCrypt::Engine.hash_secret(@password, @model.password_salt)
+      @account_message = "Welcome Back"
+      session[:user] = @model
+      return erb :login_notice
+    else
+      @account_message = "Password did not match, try again"
+      return erb :login_notice
+    end
+
   end
 
   get '/logout' do

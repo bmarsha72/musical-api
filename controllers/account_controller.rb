@@ -1,11 +1,13 @@
 class AccountController < ApplicationController
 
-  @username = ''
+  @username = ""
+
 
   get '/' do
     #login /registration page
     erb :login
   end
+
 
   post '/register' do
     #accept the params from a post to create a user (bcrypt)
@@ -31,13 +33,14 @@ class AccountController < ApplicationController
 
     @account_message = "You have successfully registered and logged in"
 
-    session[:user] = @model
-    @username = session[:user][:username]
-  
-
-    erb :login_notice
+######################## why the fuck does this work?!?!?
+session[:user] = @model
+@username = session[:user][:username]
+erb :login_notice
+########################
 
   end
+
 
   post '/login' do
     # params { :username, :password, :email }
@@ -50,24 +53,22 @@ class AccountController < ApplicationController
       return erb :login_notice
     end
 
-
-
     @model = Account.where(:username => @username).first!
     if @model.password_hash == BCrypt::Engine.hash_secret(@password, @model.password_salt)
       @account_message = "Welcome Back"
-      session[:user] = @model
 
-      @username = session[:user][:username]
+#########################
+session[:user] = @model
+@username = session[:user][:username]
+return erb :login_notice
+#########################
 
-
-
-      return erb :login_notice
     else
       @account_message = "Password did not match, try again"
       return erb :login_notice
     end
-
   end
+
 
   get '/logout' do
     session[:user] = nil
@@ -75,6 +76,27 @@ class AccountController < ApplicationController
     redirect '/'
     #user leaves - set session to nil.  they will need to log in again
   end
+
+  post '/song' do
+
+    @songbish = Song.new
+    @songbish.songname      = params[:song]
+    @songbish.songduration  = params[:duration]
+    @songbish.songartist    = params[:artist]
+    @songbish.save
+
+  end
+
+  get '/song' do
+    
+  #########################
+  session[:user] = @username
+  @account_message = "enter a song"
+  return erb :song
+  #########################
+
+  end
+
 
   get '/supersecret' do
     # test of user authentication
@@ -86,8 +108,6 @@ class AccountController < ApplicationController
       erb :login_notice
     end
   end
-
-
 
 
 end

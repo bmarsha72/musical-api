@@ -4,7 +4,12 @@
     <meta charset="utf-8">
     <title>Musical API Login/Registration</title>
    <meta name='viewport' content='width=device-width, initial-scale=1'>
+   <link rel="stylesheet" href="public/css/master.css">
   </head>
+
+
+
+
   <body>
     <h1>Musical API</h1>
     <section>
@@ -13,19 +18,19 @@
         <% else %>
         <em>Hey, Welcome First Timer, consider registering?</em>
         <% end %>
-
     </section>
+
     <hr>
+
       <a href='/'>Home</a> | <a href='/account/supersecret'>Invitation</a>
       |
-
       <% if session[:user] %>
         <a href='/account/logout'>Logout</a>
       <% else %>
         <a href='/account'>Login/Register</a>
       <% end %>
-
     <hr>
+
     <%= yield %>
 
   </body>

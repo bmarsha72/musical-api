@@ -6,6 +6,7 @@ gem 'pry'
 gem 'sinatra-activerecord'
 gem 'rainbow'
 gem 'bcrypt'
+gem 'rb-readline'
 
 group :development do
   gem 'mysql2'

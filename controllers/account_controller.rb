@@ -18,11 +18,13 @@ class AccountController < ApplicationController
     password_salt = BCrypt::Engine.generate_salt
     password_hash = BCrypt::Engine.hash_secret(@password, password_salt)
 
+    #binding.pry
+
     @model = Account.new
     @model.username = @username
     @model.email = @email
-    @model.password_hash = @password_hash
-    @model.password_salt = @password_salt
+    @model.password_hash = password_hash
+    @model.password_salt = password_salt
     @model.save
 
     @account_message = "You have successfully registered and logged in"
@@ -37,13 +39,14 @@ class AccountController < ApplicationController
     # params { :username, :password, :email }
     @username = params[:username]
     @password = params[:password]
-    @email = params[:email]
     #accept params from a post to check if a user exists
     #and if so, log them in
-    if does_user_exist?(@username) == true
+    if does_user_exist?(@username) == false
       @account_message = "User Already Exists"
       return erb :login_notice
     end
+
+
 
     @model = Account.where(:username => @username).first!
     if @model.password_hash == BCrypt::Engine.hash_secret(@password, @model.password_salt)
@@ -66,6 +69,12 @@ class AccountController < ApplicationController
   get '/supersecret' do
     # test of user authentication
     # hide some hash/json and only show to logged in users
+    if is_not_authenticated == false
+      erb :secret_club
+    else
+      @account_message = "You shall not pass!"
+      erb :login_notice
+    end
   end
 
 

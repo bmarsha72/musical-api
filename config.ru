@@ -2,6 +2,7 @@ require 'sinatra/base'
 
 #controllers
 require './controllers/application_controller'
+require './controllers/account_controller'
 
 #models
 require './models/artist'

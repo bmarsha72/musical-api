@@ -10,8 +10,8 @@ class ApplicationController < Sinatra::Base
     :database => 'musical_api2'
   )
 
-  set :public_folder, File.expand_path('../public', __FILE__)
-  set :views, File.expand_path('../views', __FILE__)
+  set :public_folder, File.expand_path('../../public', __FILE__)
+  set :views, File.expand_path('../../views', __FILE__)
   enable :sessions
 
   not_found do
@@ -28,7 +28,7 @@ class ApplicationController < Sinatra::Base
   end
 
   def is_not_authenticated
-    session[:user].nil?
+    session[:user].nil? #boolean
   end
 
   get '/' do

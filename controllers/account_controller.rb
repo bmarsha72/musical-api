@@ -57,11 +57,11 @@ erb :login_notice
     if @model.password_hash == BCrypt::Engine.hash_secret(@password, @model.password_salt)
       @account_message = "Welcome Back"
 
-#########################
-session[:user] = @model
-@username = session[:user][:username]
-return erb :login_notice
-#########################
+    #########################
+    session[:user] = @model
+    @username = session[:user][:username]
+    return erb :login_notice
+    #########################
 
     else
       @account_message = "Password did not match, try again"
@@ -71,29 +71,27 @@ return erb :login_notice
 
 
   get '/logout' do
+    #user leaves - set session to nil.  they will need to log in again
     session[:user] = nil
     @username = nil
     redirect '/'
-    #user leaves - set session to nil.  they will need to log in again
   end
 
   post '/song' do
 
-    @songbish = Song.new
-    @songbish.songname      = params[:song]
-    @songbish.songduration  = params[:duration]
-    @songbish.songartist    = params[:artist]
-    @songbish.save
+    @model = Song.new
+    @model.name      = params[:name]
+    @model.duration  = params[:duration]
+    @model.artist    = params[:artist]
+    @model.save
 
   end
 
   get '/song' do
-    
-  #########################
+
   session[:user] = @username
   @account_message = "enter a song"
   return erb :song
-  #########################
 
   end
 

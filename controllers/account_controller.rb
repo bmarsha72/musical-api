@@ -79,11 +79,15 @@ erb :login_notice
 
   post '/song' do
 
+    session[:user] = @username
     @model = Song.new
     @model.name      = params[:name]
     @model.duration  = params[:duration]
     @model.artist    = params[:artist]
     @model.save
+    @account_message = "Thanks for entering a song"
+    return erb :song
+
 
   end
 
